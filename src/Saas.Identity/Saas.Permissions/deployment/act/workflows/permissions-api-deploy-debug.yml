@@ -10,14 +10,11 @@ permissions:
 
 env:
   APP_NAME: permissions-api
-  AZURE_WEBAPP_NAME: api-permission-asdk-ngt1-v2gp        # set this to your application's name
+  AZURE_WEBAPP_NAME: api-permission-asdk-test-ngt3  # set this to your application's name
   AZURE_WEBAPP_PACKAGE_PATH: "." # set this to the path to your web app project, defaults to the repository root
   DOTNET_VERSION: 8.x.x
   PROJECT_DIR: ./src/Saas.Identity/Saas.Permissions/Saas.Permissions.Service_v1.1
-  PROJECT_PATH: ${{ env.PROJECT_DIR }}/Saas.Permissions.Service.csproj
   PUBLISH_PATH: ./publish
-  OUTPUT_PATH: ${{ env.PUBLISH_PATH }}/${{ env.APP_NAME }}/package
-  SYMBOLS_PATH: ${{ env.PUBLISH_PATH }}/symbols
   BUILD_CONFIGURATION: Debug # setting the configuration manager build configuration value for our workflow.
 
 jobs:
@@ -39,6 +36,13 @@ jobs:
 #################################################
 # end of local deployment specific section.     #
 #################################################
+
+      # Set environment variables
+      - name: Set environment variables
+        run: |
+          echo "PROJECT_PATH=${{ env.PROJECT_DIR }}/Saas.Permissions.Service.csproj" >> $GITHUB_ENV
+          echo "OUTPUT_PATH=${{ env.PUBLISH_PATH }}/${{ env.APP_NAME }}/package" >> $GITHUB_ENV
+          echo "SYMBOLS_PATH=${{ env.PUBLISH_PATH }}/symbols" >> $GITHUB_ENV
 
       # Setup .NET Core SDK
       - name: Setup .NET Core
